@@ -1,4 +1,10 @@
+""" 
+utilities to read (unstructured) directories with dicom data and read dicom images into Dicom_Series Class
 
+Mar 2022
+Andreas Wetscherek
+Erik van der Bijl
+"""
 
 import pydicom as pydicom
 import numpy as np
@@ -23,13 +29,13 @@ def thru_plane_position(dcm):
     return slice_pos
 
 class Dicom_Series():
-	""""
-	Class that loads dicomseries as a whole. 
-	
-	:method: load_data(dcm_filenames) loads all dicom files in the list
-	
-	
-	"""
+    """"
+    Class that loads dicomseries as a whole. 
+    
+    :method: load_data(dcm_filenames) loads all dicom files in the list
+    
+    
+    """
     def __init__(self,dcm_filenames):
         self.load_data(dcm_filenames)
 
@@ -43,12 +49,12 @@ class Dicom_Series():
         # ensure that AcquisitionDate/Time is also set in this function:
         dcm_slices = []
         for fn in dcm_filenames:
-        	dcm_temp = pydicom.read_file(fn)
-			# fix to avoid problems with missing acquisitionDates
-        	dcm_temp.AcquisitionDate = dcm_temp.ContentDate
-        	dcm_temp.AcquisitionTime = dcm_temp.ContentTime
-			# append to list
-        	dcm_slices += [dcm_temp]
+            dcm_temp = pydicom.read_file(fn)
+            # fix to avoid problems with missing acquisitionDates
+            dcm_temp.AcquisitionDate = dcm_temp.ContentDate
+            dcm_temp.AcquisitionTime = dcm_temp.ContentTime
+            # append to list
+            dcm_slices += [dcm_temp]
         
         #check single series
         series_in_list = set([dcm.SeriesNumber for dcm in dcm_slices])
